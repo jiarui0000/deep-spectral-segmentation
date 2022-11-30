@@ -658,7 +658,9 @@ def _extract_crf_segmentations(
     index, (image_file, segmap_path) = inp
 
     # Output file
-    id = Path(image_file).stem
+    image_file_path = Path(image_file)
+    suffixes_length = sum(map(len, image_file_path.suffixes))
+    id = image_file_path.name[:-suffixes_length]
     output_file = str(Path(output_dir) / f'{id}.png')
     if Path(output_file).is_file():
         print(f'Skipping existing file {str(output_file)}')
