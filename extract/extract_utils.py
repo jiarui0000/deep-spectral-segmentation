@@ -24,7 +24,7 @@ class ImagesDataset(Dataset):
         self.transform = transform
 
     def __getitem__(self, index: int) -> Tuple[Any, Any]:
-        path = self.filenames[index]
+        path = self.filenames[index]+".jpg"
         full_path = Path(path) if self.root is None else self.root / path
         assert full_path.is_file(), f'Not a file: {full_path}'
         image = cv2.imread(str(full_path))
