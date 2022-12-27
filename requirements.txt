@@ -7,3 +7,8 @@ scipy
 torch
 torchvision
 tqdm
+SimpleCRF
+hydra-core
+wandb
+pymatting
+albumentations

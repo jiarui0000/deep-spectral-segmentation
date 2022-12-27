@@ -138,10 +138,10 @@ python extract.py extract_features \
 
 # Eigenvectors
 python extract.py extract_eigs \
-    --images_root "./data/object-segmentation/${DATASET}/images" \
-    --features_dir "./data/object-segmentation/${DATASET}/features/dino_vits16/" \
+    "./data/object-segmentation/${DATASET}/images" :'images_root'\
+    "./data/object-segmentation/${DATASET}/features/dino_vits16/" :'features_dir'\
+    "./data/object-segmentation/${DATASET}/eigs/laplacian_dino_vits16" :'output dir' \ 
     --which_matrix "laplacian" \
-    --output_dir "./data/object-segmentation/${DATASET}/eigs/laplacian_dino_vits16" \
     --K 2 \
 
 

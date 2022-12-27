@@ -348,6 +348,8 @@ def _extract_multi_region_segmentations(
         segmap[zero_region] = bg_index
 
     # Save dict
+    if np.max(segmap) == 1:
+        segmap *= 255
     Image.fromarray(segmap).convert('L').save(output_file)
 
 
@@ -692,6 +694,9 @@ def _extract_crf_segmentations(
     segmap_crf = denseCRF.densecrf(image, unary_potentials, crf_params)  # (H_pad, W_pad)
 
     # Save
+    # origional segmap_crf is a binary image
+    if np.max(segmap_crf) == 1:
+        segmap_crf *= 255
     Image.fromarray(segmap_crf).convert('L').save(output_file)
 
 

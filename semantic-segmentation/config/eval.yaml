@@ -7,3 +7,4 @@ name: 'eval'
 job_type: 'eval'
 
 segments_dir: ""
+download: true
