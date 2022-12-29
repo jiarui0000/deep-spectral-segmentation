@@ -1,4 +1,5 @@
 #!/bin/bash
+# load config
 . ./config.sh
 
 # extract segments

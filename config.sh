@@ -14,8 +14,8 @@ N_DILATE=5
 
 # file address
 PROCESS_DATA_ROOT="/userhome/cs2/jiaruiz/ra/deep-spectral-segmentation/extract/data" # modify accordingly
-IMAGE_LIST="/userhome/cs2/jiaruiz/ra/datasets/voc/VOCdevkit/VOC2012/ImageSets/Segmentation/trainval.txt" # modify accordingly
-IMAGE_ROOT="/userhome/cs2/jiaruiz/ra/datasets/voc/VOCdevkit/VOC2012/JPEGImages" # modify accordingly
+IMAGE_LIST="/userhome/cs2/jiaruiz/machine-learning-datasets/semantic-segmentation/PASCAL_VOC/VOC2012/VOCdevkit/VOC2012/ImageSets/Segmentation/val.txt" # modify accordingly
+IMAGE_ROOT="/userhome/cs2/jiaruiz/machine-learning-datasets/semantic-segmentation/PASCAL_VOC/VOC2012/VOCdevkit/VOC2012/JPEGImages" # modify accordingly
 FEATURE_DIR="${PROCESS_DATA_ROOT}/${DATASET}/features/${MODEL}" 
 EIG_DIR="${PROCESS_DATA_ROOT}/${DATASET}/eigs/${MATRIX}" 
 SEGMENT_DIR="${PROCESS_DATA_ROOT}/${DATASET}/multi_region_segmentation/${MATRIX}"

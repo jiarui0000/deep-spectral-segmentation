@@ -29,7 +29,7 @@ class VOCSegmentationWithPseudolabelsBase(VisionDataset):
         self,
         root: str,
         year: str = "2012",
-        image_set: str = "train",
+        image_set: str = "trainval",
         download: bool = False,
         transform: Optional[Callable] = None,
         target_transform: Optional[Callable] = None,
@@ -113,10 +113,11 @@ class VOCSegmentationWithPseudolabelsBase(VisionDataset):
         self.segments_dir = segments_dir
         # Get segment and image files, which are assumed to be in correspondence
         all_segment_files = sorted(map(str, Path(segments_dir).iterdir()))
-        all_img_files = sorted(Path(self.images[0]).parent.iterdir())
+        # all_img_files = sorted(Path(self.images[0]).parent.iterdir())
+        all_img_files = self.images
         assert len(all_img_files) == len(all_segment_files), (len(all_img_files), len(all_segment_files))
         # Create mapping because I named the segment files badly (sequentially instead of by image id)
-        all_img_stems = [p.stem for p in all_img_files]
+        all_img_stems = [Path(p).stem for p in all_img_files]
         valid_img_stems = set([Path(p).stem for p in self.images])  # in our split (e.g. 'val')
         segment_files = []
         for i in range(len(all_img_stems)):
