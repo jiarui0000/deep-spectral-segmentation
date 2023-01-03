@@ -16,12 +16,12 @@ data:
   num_classes: 20
   dataset: pascal
   train_kwargs:
-    root: ${oc.env:HOME}/machine-learning-datasets/semantic-segmentation/PASCAL_VOC/VOC2012
+    root: ${oc.env:HOME}/ra/datasets/voc
     year: "2012"
     image_set: train
     download: False
   val_kwargs:
-    root: ${oc.env:HOME}/machine-learning-datasets/semantic-segmentation/PASCAL_VOC/VOC2012
+    root: ${oc.env:HOME}/ra/datasets/voc
     year: "2012"
     image_set: "val"
     download: False

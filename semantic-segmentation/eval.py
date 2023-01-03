@@ -17,8 +17,10 @@ import eval_utils
 import util as utils
 from dataset.voc import VOCSegmentationWithPseudolabels
 
+import logging
 
-@hydra.main(config_path='config', config_name='eval')
+
+@hydra.main(config_path='config', config_name='eval', version_base=None)
 def main(cfg: DictConfig):
 
     # Accelerator
@@ -29,10 +31,13 @@ def main(cfg: DictConfig):
     if cfg.wandb and accelerator.is_local_main_process:
         wandb.init(name=cfg.name, job_type=cfg.job_type, config=OmegaConf.to_container(cfg), save_code=True, **cfg.wandb_kwargs)
         cfg = DictConfig(wandb.config.as_dict())  # get the config back from wandb for hyperparameter sweeps
+    logging.basicConfig(filename='./eval.log')
 
     # Configuration
     print(OmegaConf.to_yaml(cfg))
     print(f'Current working directory: {os.getcwd()}')
+    logging.info(OmegaConf.to_yaml(cfg))
+    logging.info(f'Current working directory: {os.getcwd()}')
 
     # Set random seed
     utils.set_seed(cfg.seed)
@@ -47,11 +52,12 @@ def main(cfg: DictConfig):
     # Evaluate
     eval_stats, match = evaluate(cfg=cfg, dataset_val=dataset_val, n_clusters=cfg.get('n_clusters', None))
     print(eval_stats)
+    logging.info(eval_stats)
     if cfg.wandb and accelerator.is_local_main_process:
         wandb.summary['mIoU'] = eval_stats['mIoU']
 
     # Visualize
-    visualize(cfg=cfg, dataset_val=dataset_val)
+    visualize(cfg=cfg, dataset_val=dataset_val, vis_dir='./outputs/vis')
 
 
 def visualize(

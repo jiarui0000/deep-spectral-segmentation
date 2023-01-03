@@ -317,7 +317,7 @@ def _extract_multi_region_segmentations(
         n_clusters = non_adaptive_num_segments
 
     # K-Means
-    kmeans = KMeans(n_clusters=n_clusters)
+    kmeans = KMeans(n_clusters=n_clusters, n_init=10) # random set 10 to remove the warning while running
 
     # Compute segments using eigenvector or baseline K-means
     if kmeans_baseline:

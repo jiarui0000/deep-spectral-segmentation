@@ -79,9 +79,13 @@ class VOCSegmentationWithPseudolabelsBase(VisionDataset):
             image_dir = os.path.join(voc_root, "JPEGImages")
             with open(os.path.join(splits_dir, "val.txt"), "r") as f:
                 val_file_stems = set([stem.strip() for stem in f.readlines()])
+            with open(os.path.join(splits_dir, "train.txt"), "r") as f:
+                train_file_stems = set([stem.strip() for stem in f.readlines()])
             all_image_paths = [p for p in Path(image_dir).iterdir()]
-            train_image_paths = [str(p) for p in all_image_paths if p.stem not in val_file_stems]
+            train_image_paths = [str(p) for p in all_image_paths if p.stem in train_file_stems]
+            # print(len(train_image_paths))
             self.images = sorted(train_image_paths)
+            print(88, len(self.images))
             # For the targets, we will just replicate the same target however many times
             target_dir = os.path.join(voc_root, self._TARGET_DIR)
             self.targets = [str(next(Path(target_dir).iterdir()))] * len(self.images)

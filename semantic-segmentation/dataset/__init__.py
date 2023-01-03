@@ -55,7 +55,7 @@ def get_datasets(cfg):
     dataset_train = VOCSegmentationWithPseudolabels(
         **cfg.data.train_kwargs, 
         segments_dir=cfg.segments_dir,
-        transforms_tuple=train_transforms_tuple,
+        transforms=train_transforms_tuple,
         label_map=matching
     )
 

@@ -5,17 +5,20 @@ MODEL="dino_vits16"
 MODEL_NAME=dino_vits16 
 # eigen vector computation param
 MATRIX="laplacian" 
-K=5 
+K=3
 # semantic seg param
 DOWNSAMPLE=16
 N_SEG=15
 N_ERODE=2
 N_DILATE=5
 
+TARGET="val"
+TAG="k3"
+
 # file address
-PROCESS_DATA_ROOT="/userhome/cs2/jiaruiz/ra/deep-spectral-segmentation/extract/data" # modify accordingly
-IMAGE_LIST="/userhome/cs2/jiaruiz/machine-learning-datasets/semantic-segmentation/PASCAL_VOC/VOC2012/VOCdevkit/VOC2012/ImageSets/Segmentation/val.txt" # modify accordingly
-IMAGE_ROOT="/userhome/cs2/jiaruiz/machine-learning-datasets/semantic-segmentation/PASCAL_VOC/VOC2012/VOCdevkit/VOC2012/JPEGImages" # modify accordingly
+PROCESS_DATA_ROOT="$HOME/ra/deep-spectral-segmentation/extract/data/${TARGET}${TAG}" # modify accordingly
+IMAGE_LIST="$HOME/ra/datasets/voc/VOCdevkit/VOC2012/ImageSets/Segmentation/${TARGET}.txt" # modify accordingly
+IMAGE_ROOT="$HOME/ra/datasets/voc/VOCdevkit/VOC2012/JPEGImages" # modify accordingly
 FEATURE_DIR="${PROCESS_DATA_ROOT}/${DATASET}/features/${MODEL}" 
 EIG_DIR="${PROCESS_DATA_ROOT}/${DATASET}/eigs/${MATRIX}" 
 SEGMENT_DIR="${PROCESS_DATA_ROOT}/${DATASET}/multi_region_segmentation/${MATRIX}"
