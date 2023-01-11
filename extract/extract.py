@@ -315,6 +315,7 @@ def _extract_multi_region_segmentations(
         # print(f'Number of clusters: {n_clusters}')
     else:
         n_clusters = non_adaptive_num_segments
+        # print(f'Number of clusters: {n_clusters}, no adaptive')
 
     # K-Means
     kmeans = KMeans(n_clusters=n_clusters, n_init=10) # random set 10 to remove the warning while running
@@ -323,8 +324,10 @@ def _extract_multi_region_segmentations(
     if kmeans_baseline:
         feats = data_dict['k'].squeeze().numpy()
         clusters = kmeans.fit_predict(feats)
+        # print(feats.size(), "kmeans_baseline")
     else:
         eigenvectors = data_dict['eigenvectors'][1:1+num_eigenvectors].numpy()  # take non-constant eigenvectors
+        # eigenvectors size: 9*527
         # import pdb; pdb.set_trace()
         clusters = kmeans.fit_predict(eigenvectors.T)
 
@@ -350,6 +353,12 @@ def _extract_multi_region_segmentations(
     # Save dict
     if np.max(segmap) == 1:
         segmap *= 255
+    
+    # change happen here. add opening and closing
+    segmap = segmap.astype('uint8')
+    segmap = cv2.morphologyEx(segmap, cv2.MORPH_OPEN, kernel=(1, 1))
+    segmap = cv2.morphologyEx(segmap, cv2.MORPH_CLOSE, kernel=(1, 1))
+
     Image.fromarray(segmap).convert('L').save(output_file)
 
 

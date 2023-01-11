@@ -5,15 +5,15 @@ MODEL="dino_vits16"
 MODEL_NAME=dino_vits16 
 # eigen vector computation param
 MATRIX="laplacian" 
-K=3
+K=10
 # semantic seg param
-DOWNSAMPLE=16
+DOWNSAMPLE=16 # cannot use 64, 8 tried
 N_SEG=15
 N_ERODE=2
 N_DILATE=5
 
 TARGET="val"
-TAG="k3"
+TAG="_open+close"
 
 # file address
 PROCESS_DATA_ROOT="$HOME/ra/deep-spectral-segmentation/extract/data/${TARGET}${TAG}" # modify accordingly
