@@ -80,6 +80,7 @@ def main(cfg: DictConfig):
 
     # Setup
     model, optimizer, dataloader_train = accelerator.prepare(model, optimizer, dataloader_train)
+    # model, optimizer = accelerator.prepare(model, optimizer)
 
     # Exponential moving average of model parameters
     if cfg.ema.use_ema:
@@ -115,7 +116,7 @@ def main(cfg: DictConfig):
     # Info
     print(f'***** Starting training at {datetime.datetime.now()} *****')
     print(f'    Dataset train size: {len(dataset_train):_}')
-    print(f'    Dataset val size: {len(dataset_val):_}')
+    # print(f'    Dataset val size: {len(dataset_val):_}')
     print(f'    Dataloader train size: {len(dataloader_train):_}')
     print(f'    Dataloader val size: {len(dataloader_val):_}')
     print(f'    Batch size per device = {cfg.data.loader.batch_size}')
@@ -127,10 +128,13 @@ def main(cfg: DictConfig):
 
     # Evaluate masks before training
     if cfg.get('eval_masks_before_training', True):
+    # if False:
         print('Evaluating masks before training...')
         if accelerator.is_main_process:
             evaluate(**kwargs, evaluate_dataset_pseudolabels=True)  # <-- to evaluate the self-training masks
         torch.cuda.synchronize()
+
+    print("👍 valuating masks before training pass")
 
     # Training loop
     while True:
@@ -193,21 +197,28 @@ def train_one_epoch(
     metric_logger = utils.MetricLogger(delimiter="  ")
     metric_logger.add_meter('step', utils.SmoothedValue(window_size=1, fmt='{value:.0f}'))
     metric_logger.add_meter('lr', utils.SmoothedValue(window_size=1, fmt='{value:.6f}'))
+    print("👍 metric_logger.meters", metric_logger.meters)
     progress_bar = metric_logger.log_every(dataloader_train, cfg.logging.print_freq, header=log_header)
+    print(len(progress_bar))
+    print("👍 train mode started")
 
     # Train
     for i, (images, _, pseudolabels, _) in enumerate(progress_bar):
+        print("👍 start epoch", i)
         if i >= cfg.get('limit_train_batches', math.inf):
+            print("👍 break")
             break
 
         # Forward
         output = model(images)  # (B, C, H, W)
+        print("👍 forward done")
 
         # Cross-entropy loss
         loss = F.cross_entropy(output, pseudolabels)
 
         # Measure accuracy
         acc1, acc5 = utils.accuracy(output, pseudolabels, topk=(1, 5))
+        print("👍 measure accuracy done")
 
         # Exit if loss is NaN
         loss_value = loss.item()

@@ -356,8 +356,8 @@ def _extract_multi_region_segmentations(
     
     # change happen here. add opening and closing
     segmap = segmap.astype('uint8')
-    segmap = cv2.morphologyEx(segmap, cv2.MORPH_OPEN, kernel=(1, 1))
-    segmap = cv2.morphologyEx(segmap, cv2.MORPH_CLOSE, kernel=(1, 1))
+    # segmap = cv2.morphologyEx(segmap, cv2.MORPH_OPEN, kernel=(3, 3))
+    segmap = cv2.morphologyEx(segmap, cv2.MORPH_CLOSE, kernel=(3, 3))
 
     Image.fromarray(segmap).convert('L').save(output_file)
 

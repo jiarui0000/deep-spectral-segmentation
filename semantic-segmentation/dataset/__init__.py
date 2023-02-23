@@ -51,20 +51,26 @@ def get_datasets(cfg):
     else:
         matching = None
 
+    print("🌟 dataset initialization")
+
+    print("🌟 loading training dataset start")
     # Training dataset
     dataset_train = VOCSegmentationWithPseudolabels(
         **cfg.data.train_kwargs, 
-        segments_dir=cfg.segments_dir,
+        segments_dir=cfg.train_segments_dir,
         transforms=train_transforms_tuple,
         label_map=matching
     )
 
+    print("🌟 loading val dataset start")
     # Validation dataset
     dataset_val = VOCSegmentationWithPseudolabels(
         **cfg.data.val_kwargs, 
-        segments_dir=cfg.segments_dir,
+        segments_dir=cfg.val_segments_dir,
         transform=val_transform,
         label_map=matching
     )
+
+    print("🌟 dataset init done. train size:", len(dataset_train), " val size:", len(dataset_val))
 
     return dataset_train, dataset_val, collate_fn

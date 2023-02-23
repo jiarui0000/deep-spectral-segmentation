@@ -6,5 +6,6 @@ defaults:
 name: 'eval'
 job_type: 'eval'
 
-segments_dir: ""
+train_segments_dir: ""
+val_segments_dir: ""
 download: true

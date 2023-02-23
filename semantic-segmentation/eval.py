@@ -45,7 +45,7 @@ def main(cfg: DictConfig):
     # Create dataset with segments/pseudolabels
     dataset_val = VOCSegmentationWithPseudolabels(
         **cfg.data.val_kwargs, 
-        segments_dir=cfg.segments_dir,
+        segments_dir=cfg.val_segments_dir,
         transform=None,  # no transform to evaluate at original resolution
     )
 
@@ -133,11 +133,14 @@ def evaluate(
     num_elems = offset_
     if n_clusters == n_classes:
         print('Using hungarian algorithm for matching')
+        logging.info('Using hungarian algorithm for matching')
         match = eval_utils.hungarian_match(all_preds, all_gt, preds_k=n_clusters, targets_k=n_classes, metric='iou')
     else:
         print('Using majority voting for matching')
+        logging.info('Using majority voting for matching')
         match = eval_utils.majority_vote(all_preds, all_gt, preds_k=n_clusters, targets_k=n_classes)
     print(f'Optimal matching: {match}')
+    logging.info(f'Optimal matching: {match}')
 
     # Remap predictions
     reordered_preds = np.zeros(num_elems, dtype=all_preds.dtype)
@@ -163,6 +166,7 @@ def evaluate(
     eval_result['mIoU'] = np.mean(jac)
     print('Evaluation of semantic segmentation ')
     print('mIoU is %.2f' % (100*eval_result['mIoU']))
+    logging.info('mIoU is %.2f' % (100*eval_result['mIoU']))
     return eval_result, match
 
 

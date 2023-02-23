@@ -12,8 +12,8 @@ N_SEG=15
 N_ERODE=2
 N_DILATE=5
 
-TARGET="val"
-TAG="_open+close"
+TARGET="train"
+TAG=""
 
 # file address
 PROCESS_DATA_ROOT="$HOME/ra/deep-spectral-segmentation/extract/data/${TARGET}${TAG}" # modify accordingly

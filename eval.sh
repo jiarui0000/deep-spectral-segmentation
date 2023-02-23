@@ -2,4 +2,4 @@
 # load config
 . ./config.sh
 
-python semantic-segmentation/eval.py segments_dir=$SSEG_DIR
+python semantic-segmentation/eval.py val_segments_dir=$SSEG_DIR
